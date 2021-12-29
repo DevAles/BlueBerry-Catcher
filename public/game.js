@@ -26,11 +26,9 @@ export default function game(){
     let timer = null
 
     function autoFruit(setTimer){
-        timer = setInterval(addFruit, setTimer)
-    }
-
-    function clearTimer(){
         clearInterval(timer)
+        timer = setInterval(addFruit, setTimer)
+        
     }
 
     function movePlayer(command){
@@ -165,7 +163,6 @@ export default function game(){
         removeFruit,
         subscribe,
         setState,
-        autoFruit,
-        clearTimer
+        autoFruit
     }
 }

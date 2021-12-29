@@ -19,8 +19,6 @@
             const keyboardListenerVar = keyboardListener()
             document.getElementById('done').onclick = function(){
                 const timer = document.getElementById('timer').value
-
-                gamevar.clearTimer()
                 
                 socket.emit('set-timer', timer)
                 console.log(timer)
