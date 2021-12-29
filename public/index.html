@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+        <script src="/socket.io/socket.io.js"></script>
+    </head>
+    <body>
+        <p id="points">Points:</p>
+        <canvas id="canvas" width="10" height="10"></canvas></br>
+        <p>Insert Timer of Add Fruits in Milliseconds:</p>
+        <input id="timer" value="1000" type="number"></input>
+        <button type="button" id="done">Done!</button>
+        <script type="module">
+            import updateCanvas from './update_canvas.js'
+            import keyboardListener from './keyboard_listener.js'
+            import game from './game.js'
+
+            const socket = io()
+            const gamevar = game()
+            const keyboardListenerVar = keyboardListener()
+            document.getElementById('done').onclick = function(){
+                const timer = document.getElementById('timer').value
+
+                gamevar.clearTimer()
+                
+                socket.emit('set-timer', timer)
+                console.log(timer)
+            }
+
+            socket.on('connect', function(){
+                const playerId = socket.id
+
+                console.log('> Connected with Id: ' + playerId)
+
+                updateCanvas(canvas, gamevar, requestAnimationFrame, playerId)
+                document.getElementById('points').innerHTML = 'Points: '+ gamevar.state.points 
+            })
+            socket.on('ready', function(state){
+                const playerId = socket.id
+                const timer = document.getElementById('timer').value
+                
+                console.log('> Server Ready!')
+                gamevar.setState(state)
+
+                keyboardListenerVar.registerPlayer(playerId)
+                keyboardListenerVar.subscribe(gamevar.movePlayer)
+                
+                keyboardListenerVar.subscribe(function(command){
+                    socket.emit('move-player', command)
+                })
+
+                socket.emit('set-timer', timer)
+                console.log(timer)
+            })
+
+            socket.on('add-player', function(command){
+                console.log('> Receiving command: ' + command.type)
+                gamevar.addPlayer(command)
+            })
+            socket.on('remove-player', function(command){
+                console.log('> Receiving command: ' + command.type)
+                gamevar.removePlayer(command)
+            })
+            socket.on('add-fruit', function(command){
+                console.log('> Receiving command: ' + command.type)
+                gamevar.addFruit(command)
+            })
+            socket.on('remove-fruit', function(command){
+                console.log('> Receiving command: ' + command.type)
+                
+                gamevar.removeFruit(command)
+                gamevar.state.points = gamevar.state.points +1
+                document.getElementById('points').innerHTML = 'Points: '+ gamevar.state.points  
+            })
+            socket.on('move-player', function(command){
+                const playerId = socket.id
+
+                console.log('> Receiving command: ' + command.type)
+
+                if (playerId !== command.playerId){
+                    gamevar.movePlayer(command)
+                }
+            })
+        </script>
+    </body>
+</html>

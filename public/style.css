@@ -1,0 +1,21 @@
+body{
+    background-color:aqua
+}
+#canvas{
+    border-radius: 8px;
+    background-color: black;
+    border: 1px solid black;
+    image-rendering: crisp-edges;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    width: 400px;
+    height: 400px;
+}
+p{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-style: oblique;
+}
+input{
+    border-radius: 8px;
+    border: 2px solid black;
+}
