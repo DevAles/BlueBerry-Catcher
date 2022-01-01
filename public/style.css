@@ -19,3 +19,7 @@ input{
     border-radius: 8px;
     border: 2px solid black;
 }
+button{
+    border-radius: 5px;
+    
+}

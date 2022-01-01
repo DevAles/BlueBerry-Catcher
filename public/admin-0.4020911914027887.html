@@ -6,6 +6,9 @@
     <body>
         <p id="points">Points:</p>
         <canvas id="canvas" width="10" height="10"></canvas></br>
+        <p>Insert Timer of Add Fruits in Milliseconds:</p>
+        <input id="timer" value="1000" type="number"></input>
+        <button type="button" id="done">Done!</button>
         <script type="module">
             import updateCanvas from './update_canvas.js'
             import keyboardListener from './keyboard_listener.js'
@@ -14,6 +17,12 @@
             const socket = io()
             const gamevar = game()
             const keyboardListenerVar = keyboardListener()
+            document.getElementById('done').onclick = function(){
+                const timer = document.getElementById('timer').value
+                
+                socket.emit('set-timer', timer)
+                console.log(timer)
+            }
 
             socket.on('connect', function(){
                 const playerId = socket.id
@@ -25,6 +34,7 @@
             })
             socket.on('ready', function(state){
                 const playerId = socket.id
+                const timer = document.getElementById('timer').value
                 
                 console.log('> Server Ready!')
                 gamevar.setState(state)
@@ -35,6 +45,9 @@
                 keyboardListenerVar.subscribe(function(command){
                     socket.emit('move-player', command)
                 })
+
+                socket.emit('set-timer', timer)
+                console.log(timer)
             })
 
             socket.on('add-player', function(command){
