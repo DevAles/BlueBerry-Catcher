@@ -11,6 +11,12 @@ export default function keyboardListener(){
     function subscribe(observerFunction){
         state.observers.push(observerFunction)
     }
+    function unsubscribeAll(){
+        for(let observerLenght = state.observers.length; 
+            observerLenght > 0; observerLenght--){
+                state.observers.pop()
+            }
+    }
 
     function notifyAll(command){
         for(const observerFunction of state.observers){
@@ -30,6 +36,7 @@ export default function keyboardListener(){
     }
     return{
         subscribe,
+        unsubscribeAll,
         registerPlayer
     }
 }

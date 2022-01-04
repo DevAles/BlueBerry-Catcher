@@ -12,6 +12,13 @@ export default function game(){
         observers.push(observerFunction)
     }
 
+    function unsubscribeAll(){
+        for(let observerLenght = state.observers.length; 
+            observerLenght > 0; observerLenght--){
+                observers.pop()
+            }
+    }
+
     function notifyAll(command){
         for(const observerFunction of observers){
             observerFunction(command)
@@ -162,6 +169,7 @@ export default function game(){
         addFruit,
         removeFruit,
         subscribe,
+        unsubscribeAll,
         setState,
         autoFruit
     }

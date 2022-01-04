@@ -65,6 +65,9 @@
                     gamevar.movePlayer(command)
                 }
             })
+            socket.on('disconnect', function(){
+                    keyboardListenerVar.unsubscribeAll()
+                })
         </script>
     </body>
 </html>
