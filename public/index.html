@@ -17,11 +17,11 @@
 
             socket.on('connect', function(){
                 const playerId = socket.id
+                const player = gamevar.state.players[playerId]
 
                 console.log('> Connected with Id: ' + playerId)
 
                 updateCanvas(canvas, gamevar, requestAnimationFrame, playerId)
-                document.getElementById('points').innerHTML = 'Points: '+ gamevar.state.points 
             })
             socket.on('ready', function(state){
                 const playerId = socket.id
@@ -38,8 +38,13 @@
             })
 
             socket.on('add-player', function(command){
+                const playerId = socket.id
+
                 console.log('> Receiving command: ' + command.type)
                 gamevar.addPlayer(command)
+
+                const player = gamevar.state.players[playerId]
+                document.getElementById('points').innerHTML = playerId + ': ' + player.points
             })
             socket.on('remove-player', function(command){
                 console.log('> Receiving command: ' + command.type)
@@ -50,11 +55,12 @@
                 gamevar.addFruit(command)
             })
             socket.on('remove-fruit', function(command){
+                const playerId = socket.id
+                const player = gamevar.state.players[playerId]
                 console.log('> Receiving command: ' + command.type)
                 
                 gamevar.removeFruit(command)
-                gamevar.state.points = gamevar.state.points +1
-                document.getElementById('points').innerHTML = 'Points: '+ gamevar.state.points  
+                document.getElementById('points').innerHTML = playerId + ': '+ player.points  
             })
             socket.on('move-player', function(command){
                 const playerId = socket.id

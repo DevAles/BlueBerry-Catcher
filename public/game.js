@@ -2,21 +2,13 @@ export default function game(){
     const state = {
         players:{},
         fruits:{},
-        canvas:{},
-        points:0
+        canvas:{}
     }
 
     const observers = []
 
     function subscribe(observerFunction){
         observers.push(observerFunction)
-    }
-
-    function unsubscribeAll(){
-        for(let observerLenght = state.observers.length; 
-            observerLenght > 0; observerLenght--){
-                observers.pop()
-            }
     }
 
     function notifyAll(command){
@@ -36,6 +28,12 @@ export default function game(){
         clearInterval(timer)
         timer = setInterval(addFruit, setTimer)
         
+    }
+
+    function updatePoints(playerId){
+        const player = state.players[playerId]
+
+        player.points = player.points +1
     }
 
     function movePlayer(command){
@@ -101,7 +99,8 @@ export default function game(){
             const fruit = state.fruits[fruitId]
 
             if (player.x === fruit.x && player.y === fruit.y){
-                removeFruit({fruitId})
+                removeFruit({fruitId, playerId})
+                updatePoints(playerId)
             }
         }
     }
@@ -110,16 +109,19 @@ export default function game(){
         const playerId = command.playerId
         const playerX = 'playerX' in command ? command.playerX : Math.round(Math.random()* state.canvas.width)
         const playerY = 'playerY' in command ? command.playerY : Math.round(Math.random()* state.canvas.height)
+        const playerPoints = 0
 
         state.players[playerId] = {
             x: playerX,
-            y: playerY
+            y: playerY,
+            points: playerPoints
         }
         notifyAll({
             type: 'add-player',
             playerId,
             playerX,
-            playerY
+            playerY,
+            playerPoints
         })
     }
 
@@ -153,11 +155,14 @@ export default function game(){
 
     function removeFruit(command){
         const fruitId = command.fruitId
+        const playerId = command.playerId
 
         delete state.fruits[fruitId]
+
         notifyAll({
             type: 'remove-fruit',
-            fruitId
+            fruitId,
+            playerId
         })
     }
 
@@ -169,7 +174,6 @@ export default function game(){
         addFruit,
         removeFruit,
         subscribe,
-        unsubscribeAll,
         setState,
         autoFruit
     }

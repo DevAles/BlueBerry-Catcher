@@ -42,8 +42,6 @@ sockets.on('connection', function(socket){
         console.log('> Disconnected Id: ' + playerId)
 
         gamevar.removePlayer({playerId})
-        gamevar.unsubscribeAll()
-        socket.emit('disconnect')
     })
 })
 
