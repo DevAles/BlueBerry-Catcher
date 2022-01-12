@@ -12,12 +12,20 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.2",
-    "socket.io": "^4.4.0"
+    "socket.io": "^4.4.1"
   },
   "devDependencies": {
-    "eslint": "^8.5.0",
+    "eslint": "^8.6.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.25.3"
   },
-  "description": ""
+  "description": "A simple project",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DevAles/BlueBerry-Catcher.git"
+  },
+  "bugs": {
+    "url": "https://github.com/DevAles/BlueBerry-Catcher/issues"
+  },
+  "homepage": "https://github.com/DevAles/BlueBerry-Catcher#readme"
 }

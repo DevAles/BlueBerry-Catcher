@@ -11,7 +11,7 @@ body{
     width: 400px;
     height: 400px;
 }
-p{
+#points{
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-style: oblique;
 }

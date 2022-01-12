@@ -4,16 +4,16 @@
         <script src="/socket.io/socket.io.js"></script>
     </head>
     <body>
-        <p id="points">Points:</p>
+        <table id="points"></table>
         <canvas id="canvas" width="10" height="10"></canvas></br>
         <script type="module">
-            import updateCanvas from './update_canvas.js'
+            import updateScreen from './update_screen.js'
             import keyboardListener from './keyboard_listener.js'
             import game from './game.js'
 
             const socket = io()
-            const gamevar = game()
             const keyboardListenerVar = keyboardListener()
+            const gamevar = game()
 
             socket.on('connect', function(){
                 const playerId = socket.id
@@ -21,13 +21,16 @@
 
                 console.log('> Connected with Id: ' + playerId)
 
-                updateCanvas(canvas, gamevar, requestAnimationFrame, playerId)
+                updateScreen(canvas, gamevar, requestAnimationFrame, playerId)
             })
             socket.on('ready', function(state){
                 const playerId = socket.id
+                const updateScreenVar = updateScreen(canvas, gamevar, requestAnimationFrame, playerId)
                 
                 console.log('> Server Ready!')
                 gamevar.setState(state)
+                updateScreenVar.updateTable()
+                
 
                 keyboardListenerVar.registerPlayer(playerId)
                 keyboardListenerVar.subscribe(gamevar.movePlayer)
@@ -39,16 +42,19 @@
 
             socket.on('add-player', function(command){
                 const playerId = socket.id
+                const updateScreenVar = updateScreen(canvas, gamevar, requestAnimationFrame, playerId)
 
                 console.log('> Receiving command: ' + command.type)
                 gamevar.addPlayer(command)
-
-                const player = gamevar.state.players[playerId]
-                document.getElementById('points').innerHTML = playerId + ': ' + player.points
+                updateScreenVar.updateTable()
             })
             socket.on('remove-player', function(command){
+                const playerId = socket.id
+                const updateScreenVar = updateScreen(canvas, gamevar, requestAnimationFrame, playerId)
+
                 console.log('> Receiving command: ' + command.type)
                 gamevar.removePlayer(command)
+                updateScreenVar.updateTable()
             })
             socket.on('add-fruit', function(command){
                 console.log('> Receiving command: ' + command.type)
@@ -57,10 +63,11 @@
             socket.on('remove-fruit', function(command){
                 const playerId = socket.id
                 const player = gamevar.state.players[playerId]
+                const updateScreenVar = updateScreen(canvas, gamevar, requestAnimationFrame, playerId)
                 console.log('> Receiving command: ' + command.type)
                 
                 gamevar.removeFruit(command)
-                document.getElementById('points').innerHTML = playerId + ': '+ player.points  
+                updateScreenVar.updateTable()
             })
             socket.on('move-player', function(command){
                 const playerId = socket.id
@@ -72,8 +79,8 @@
                 }
             })
             socket.on('disconnect', function(){
-                    keyboardListenerVar.unsubscribeAll()
-                })
+                keyboardListenerVar.unsubscribeAll()
+            })
         </script>
     </body>
 </html>
