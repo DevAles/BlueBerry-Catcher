@@ -4,10 +4,12 @@ import { Server } from 'socket.io'
 import game from './public/game.js'
 
 const app = express();
-const gamevar = game()
+const gamevar = game();
 
 const server = http.createServer(app)
 const sockets = new Server(server)
+const port = 8080
+
 const canvas = gamevar.state.canvas
 
 canvas.width = 10
@@ -44,4 +46,6 @@ sockets.on('connection', function(socket){
 })
 
 app.use(express.static('public'))
-server.listen(8080)
+server.listen(port, function(){
+    console.log('> Connected with port: ' + port)
+})

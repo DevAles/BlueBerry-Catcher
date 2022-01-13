@@ -15,6 +15,7 @@ export default function keyboardListener(){
         for(let observerLenght = state.observers.length; 
             observerLenght > 0; observerLenght--){
                 state.observers.pop()
+                console.log('> Existent Observers: '+ observerLenght)
             }
     }
 
