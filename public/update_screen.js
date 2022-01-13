@@ -40,7 +40,7 @@ export default function updateScreen(canvas, gamevar, requestAnimationFrame, cur
             })
 
             table += `
-            <tr ${playerId === currentPlayerId ? 'style="color: red"' : ''}>
+            <tr ${playerId === currentPlayerId ? 'id="currentPlayer"' : 'id="players"'}>
             <td>${playerId + ': '}</td>
             <td>${player.points}</td>
             </tr>

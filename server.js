@@ -12,8 +12,6 @@ const canvas = gamevar.state.canvas
 
 canvas.width = 10
 canvas.height = 10
-const random = Math.random()
-console.log(random)
 
 gamevar.subscribe(function(command){
     console.log('Emitting command: ' + command.type)

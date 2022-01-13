@@ -46,7 +46,6 @@
                 
                 keyboardListenerVar.subscribe(function(command){
                     socket.emit('move-player', command)
-                
                 })
                 socket.emit('set-timer', timer)
                 console.log(timer)

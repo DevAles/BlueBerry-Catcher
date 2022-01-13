@@ -11,6 +11,12 @@ body{
     width: 400px;
     height: 400px;
 }
+#currentPlayer{
+    color: red;
+}
+#players{
+    color: gray;
+}
 #points{
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-style: oblique;
