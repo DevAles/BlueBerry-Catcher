@@ -11,9 +11,6 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "eslint": "^8.6.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.25.3",
     "express": "^4.17.2",
     "nodemon": "^2.0.15",
     "socket.io": "^4.4.1"
