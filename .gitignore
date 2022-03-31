@@ -7,4 +7,5 @@ temp/
 # ignore node_modules 
 node_modules/
 
-./admin
+# ignore admin files
+admin/
